@@ -162,32 +162,37 @@ static void printSalesSummary(Product* head) {
 		return;
 	}
 
-	double totalSales;
-	double highestSale, lowestSale;
-	string highestProduct, lowestProduct;
-	bool hasSales;
+	double totalSales = 0;
+	double highestSale;
+	double lowestSale;
+	string highestProduct;
+    string lowestProduct;
+	bool hasSales = false;
 
 	cout << "\n==== Sales Summary ====\n";
-	Product* current = head;
-	while (current) {
-		if (current->totalSales > 0) {  // Ensure we count only sold items
-			hasSales = true;
-			totalSales += current->totalSales;
-
-			if (current->totalSales > highestSale) {
-				highestSale = current->totalSales;
-				highestProduct = current->productName; 
-			}
-			if (current->totalSales < lowestSale) {
-				lowestSale = current->totalSales;
-				lowestProduct = current->productName; 
-			}
-		}
-		current = current->next;
+Product* current = head;
+while (current) {
+	if (current->totalSales > 0 && !hasSales) {                     // Initialize values when the first sale is found 
+		highestSale = lowestSale = current->totalSales;
+		highestProduct = lowestProduct = current->totalSales;
+		hasSales = true;
 	}
+	if (current->totalSales > 0) {
+		totalSales += current->totalSales;
+		if (current->totalSales > highestSale) {
+			highestSale = current->totalSales;
+			highestProduct = current->productName;
+		}
+		if (current->totalSales < lowestSale) {
+			lowestSale = current->totalSales;
+			lowestProduct = current->productName;
+		}
+	}
+	current = current->next;
+}
 
 	// Display Sales Summary
-	current = head;
+		current = head;
 	cout << "\nProduct Sales Breakdown:\n";
 	cout << "------------------------------------\n";
 	while (current) {
